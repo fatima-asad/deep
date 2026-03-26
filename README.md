@@ -14,7 +14,10 @@ deep/
 │   ├── poem_generation_gru.ipynb     # Poem generation with GRU
 │   └── ocr_pipeline.ipynb            # OCR / image-text extraction
 ├── src/
-│   └── utils.py                # Shared helper functions
+│   ├── utils.py                # Shared helper functions
+│   └── model.py                # Reusable model-building functions
+├── tests/
+│   └── test_utils.py           # Unit tests for src/utils.py
 ├── requirements.txt
 └── README.md
 ```
@@ -49,6 +52,30 @@ lines_clean = [clean_text(l) for l in lines]
 X, y, tokenizer, max_len = build_sequences(lines_clean, vocab_size=100)
 ```
 
+## Model Module (`src/model.py`)
+
+Reusable functions for building and running language models:
+
+| Function | Description |
+|----------|-------------|
+| `build_rnn_model(vocab_size, ...)` | Build a compiled GRU / LSTM / SimpleRNN next-word prediction model |
+| `predict_next_word(model, tokenizer, seed_text, max_len)` | Predict the single most likely next word |
+| `generate_text(model, tokenizer, seed_text, max_len, n_words)` | Generate `n_words` new words from a seed string |
+
+**Example:**
+```python
+from src.utils import clean_text, build_sequences
+from src.model import build_rnn_model, generate_text
+
+# ... load and clean your texts ...
+X, y, tokenizer, max_len = build_sequences(texts, vocab_size=500)
+
+model = build_rnn_model(vocab_size=501, embed_dim=100, rnn_units=128, rnn_type="gru")
+model.fit(X, y, epochs=10, batch_size=32)
+
+print(generate_text(model, tokenizer, "the cut", max_len, n_words=10))
+```
+
 ## Getting Started
 
 ### Prerequisites
@@ -73,6 +100,14 @@ X, y, tokenizer, max_len = build_sequences(lines_clean, vocab_size=100)
    ```bash
    jupyter notebook
    ```
+
+## Running Tests
+
+Unit tests for the shared utilities live in `tests/`. Run them with:
+
+```bash
+pytest tests/ -v
+```
 
 ## Highlighted Project: Poem Generation (GRU)
 
