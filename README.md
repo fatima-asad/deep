@@ -2,16 +2,52 @@
 
 A collection of deep learning and natural language processing experiments using Python, TensorFlow, and Keras.
 
-## Projects
+## Directory Structure
+
+```
+deep/
+├── notebooks/                  # Jupyter notebooks (one topic per file)
+│   ├── mnist_classification.ipynb    # MNIST digit classification
+│   ├── sarcasm_detection.ipynb       # Sarcasm detection dataset exploration
+│   ├── text_generation_rnn.ipynb     # Text generation with SimpleRNN / LSTM
+│   ├── nlp_rnn_fundamentals.ipynb    # NLP fundamentals with RNNs
+│   ├── poem_generation_gru.ipynb     # Poem generation with GRU
+│   └── ocr_pipeline.ipynb            # OCR / image-text extraction
+├── src/
+│   └── utils.py                # Shared helper functions
+├── requirements.txt
+└── README.md
+```
+
+## Notebooks
 
 | Notebook | Description |
 |----------|-------------|
-| `Untitled8.ipynb` | MNIST digit classification using a dense neural network |
-| `Untitled25.ipynb` | Sarcasm detection dataset exploration |
-| `Untitled80.ipynb` | Text generation using SimpleRNN on a quotes dataset |
-| `Untitled83.ipynb` | NLP fundamentals with RNNs |
-| `Untitled84.ipynb` | **Poem generation** using a GRU-based language model |
-| `Untitled86.ipynb` | OCR / image text extraction using Tesseract |
+| `notebooks/mnist_classification.ipynb` | MNIST digit classification using a dense neural network |
+| `notebooks/sarcasm_detection.ipynb` | Sarcasm detection dataset exploration |
+| `notebooks/text_generation_rnn.ipynb` | Text generation using SimpleRNN / LSTM on a quotes dataset |
+| `notebooks/nlp_rnn_fundamentals.ipynb` | NLP fundamentals with RNNs |
+| `notebooks/poem_generation_gru.ipynb` | **Poem generation** using a GRU-based language model |
+| `notebooks/ocr_pipeline.ipynb` | OCR / image text extraction using Tesseract |
+
+## Shared Utilities (`src/utils.py`)
+
+Common helpers reused across notebooks:
+
+| Function | Description |
+|----------|-------------|
+| `clean_text(text)` | Lowercase and remove punctuation from a string |
+| `build_sequences(texts, vocab_size, padding)` | Tokenize texts and build padded n-gram input/output pairs |
+| `load_json_dataset(filepath)` | Load a JSON or newline-delimited JSON file into a list of records |
+
+**Example:**
+```python
+from src.utils import clean_text, build_sequences
+
+lines = ["The quick brown fox", "jumps over the lazy dog"]
+lines_clean = [clean_text(l) for l in lines]
+X, y, tokenizer, max_len = build_sequences(lines_clean, vocab_size=100)
+```
 
 ## Getting Started
 
@@ -40,7 +76,7 @@ A collection of deep learning and natural language processing experiments using 
 
 ## Highlighted Project: Poem Generation (GRU)
 
-`Untitled84.ipynb` trains a GRU-based language model on a poem dataset to generate new poem-like text.
+`notebooks/poem_generation_gru.ipynb` trains a GRU-based language model on a poem dataset to generate new poem-like text.
 
 **Model architecture:**
 - Embedding layer (vocab size 500, 100 dimensions)
